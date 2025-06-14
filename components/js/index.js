@@ -8,12 +8,12 @@ window.onload = function () {
         getApi(`${lat},${lon}`);
       },
       (error) => {
-        console.log("فشل في تحديد الموقع:", error.message);
+        // console.log("فشل في تحديد الموقع:", error.message);
         getApi("cairo"); 
       }
     );
   } else {
-    console.log("المتصفح لا يدعم تحديد الموقع");
+    console.log("The website does not support geolocation.");
     getApi("cairo"); 
   }
 };
@@ -32,7 +32,7 @@ async function getApi(city = "cairo") {
 
     displayWeather(data1, data2);
   } catch (error) {
-    document.querySelector(".now").innerHTML = `<h3>فشل في تحميل الطقس</h3>`;
+    document.querySelector(".now").innerHTML = `<h3>Error</h3>`;
   }
 }
 
