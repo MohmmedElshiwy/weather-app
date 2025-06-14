@@ -1,40 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Weather App</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weather App</title>
 
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="./components/css/bootstrap.min.css" />
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="./components/css/bootstrap.min.css" />
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Caprasimo&display=swap" rel="stylesheet" />
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Caprasimo&display=swap" rel="stylesheet" />
 
-    <!-- Font Awesome -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <!--  CSS -->
-    <link rel="stylesheet" href="./components/css/style.css" />
-  </head>
-  <body>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="./components/css/style.css" />
+</head>
+<body>
+  <header class="d-flex justify-content-around align-items-center">
+
     <h1 class="text-center text-white my-4">Weather App</h1>
+<button id="mode" class="btn btn-light">
+  <i class="fa-solid fa-moon"></i>
+</button>
 
-    <div class="search-box text-center mb-4">
-      <input type="text" id="cityInput" placeholder="Search by City Name" class="form-control w-50 mx-auto" />
-      <!-- <button class="btn btn-primary mt-2" id="searchBtn">Search</button> -->
+
+  </header>
+
+  <div class="search-box text-center mb-4">
+    <input type="text" id="cityInput" placeholder="Search by City Name" class="form-control w-50 mx-auto" />
+  </div>
+
+  <div class="container">
+    <div class="now row g-4 justify-content-center text-white ">
+      <span class="loader"></span>
     </div>
+  </div>
 
-    <div class="container">
-      <div class="now row justify-content-center g-4 d-flex text-white">
-      </div>
-    </div>
-
-    <script src="./components/js/index.js"></script>
-  </body>
+  <script src="./components/js/index.js"></script>
+</body>
 </html>

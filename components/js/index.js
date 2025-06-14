@@ -4,17 +4,12 @@ window.onload = function () {
       (position) => {
         let lat = position.coords.latitude;
         let lon = position.coords.longitude;
-
         getApi(`${lat},${lon}`);
       },
-      (error) => {
-        // console.log("فشل في تحديد الموقع:", error.message);
-        getApi("cairo"); 
-      }
+      () => getApi("cairo") // fallback
     );
   } else {
-    console.log("The website does not support geolocation.");
-    getApi("cairo"); 
+    getApi("cairo"); // fallback
   }
 };
 
@@ -31,7 +26,7 @@ async function getApi(city = "cairo") {
     let data2 = await res2.json();
 
     displayWeather(data1, data2);
-  } catch (error) {
+  } catch {
     document.querySelector(".now").innerHTML = `<h3>Error</h3>`;
   }
 }
@@ -41,9 +36,9 @@ function displayWeather(data, data2) {
   let cityName = data.location.name;
   let currentWeather = data2.current.temp_c;
 
-  let cardsHTML = `<h2 class="text-center mb-4">${cityName}</h2><div class="row justify-content-center">`;
+  let cardsHTML = `<h2 class="text-center mb-4">${cityName}</h2>`;
   cardsHTML += forecastDays
-    .map((day,index) => {
+    .map((day, index) => {
       let date = new Date(day.date);
       let weekday = date.toLocaleDateString("en", { weekday: "long" });
       let fullDate = date.toLocaleDateString();
@@ -53,27 +48,60 @@ function displayWeather(data, data2) {
       let min = Math.floor(day.day.mintemp_c);
 
       return `
-        <div class="card col-md-4 gap-4 p-3 text-center">
-          <h4>${weekday}</h4>
-          <p>${fullDate}</p>
-          <img src="https:${icon}" alt="${condition}" width="100" />
-  ${
-            index === 0
-              ? `<h3>${currentWeather}°</h3>` 
-              : ""
-          }          <h5 class="my-2">${condition}</h5>
-          <p>🌡️ ${max}° / ${min}°</p>
+        <div class="col-md-4">
+          <div class="card p-3 text-center h-100">
+            <h4>${weekday}</h4>
+            <p>${fullDate}</p>
+            <img src="https:${icon}" alt="${condition}" width="100" />
+            ${
+              index === 0
+                ? `<h3>${currentWeather}°</h3>`
+                : ""
+            }
+            <h5 class="my-2">${condition}</h5>
+            <p>🌡️ ${max}° / ${min}°</p>
+          </div>
         </div>
       `;
     })
     .join("");
 
   document.querySelector(".now").innerHTML = cardsHTML;
+
+  // Add show class after rendering
+  setTimeout(() => {
+    document.querySelectorAll('.card').forEach((el) => {
+      el.classList.add('show');
+    });
+  }, 100);
 }
 
 document.getElementById("cityInput").addEventListener("input", () => {
   let city = document.getElementById("cityInput").value.trim();
+
   if (city !== "") {
     getApi(city);
+  } else {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          let lat = position.coords.latitude;
+          let lon = position.coords.longitude;
+          getApi(`${lat},${lon}`);
+        },
+        () => getApi("cairo") // fallback لو في خطأ
+      );
+    } else {
+      getApi("cairo");
+    }
   }
 });
+mode.onclick = function () {
+  document.body.classList.toggle("dark");
+  mode.classList.toggle("btn-warning");
+  mode.classList.toggle("btn-light");
+
+  let icon = mode.querySelector("i");
+  icon.classList.toggle("fa-moon");
+  icon.classList.toggle("fa-sun");
+};
